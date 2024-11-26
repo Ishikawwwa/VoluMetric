@@ -1,0 +1,4 @@
+# VoluMetric: A 3D Model Embedding and Retrieval Framework Using Vision Transformers
+
+## About the Project
+VoluMetric is a system designed for efficient embedding and retrieval of 3D models. By leveraging Vision Transformers (ViTs) and a robust multi-angle rendering pipeline, the system encodes 3D models into high-dimensional vector spaces, enabling accurate content-based retrieval. The embeddings are stored and managed using scalable vector databases like Qdrant, integrated with PostgreSQL for metadata handling. VoluMetric aims to address the challenges of traditional keyword-based searches, offering a scalable and efficient solution suitable for applications in gaming, design, and education. Silhouette-based embeddings were also explored as an alternative, although they exhibited limitations in performance compared to ViT-based embeddings.
