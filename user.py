@@ -4,7 +4,7 @@ from KeyValueDB import KeyValueDB
 
 
 converter = ImageToEmbed()
-embedding = converter.convert("image.png")
+embedding = converter.convert("image_input_dragon.png")
 
 embedding_less = []
 for num in embedding:

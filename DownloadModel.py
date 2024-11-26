@@ -4,12 +4,15 @@ import os
 import shutil
 
 
+# Class for downloading models from sketchfab
 class DownloadModel:
     def __init__(self, zip_save_path, zip_extract_path, token_path):
         self.zip_save_path = zip_save_path
         self.zip_extract_path = zip_extract_path
         
         self.token = self.retrieve_token(token_path)
+
+        # Tokens needed to parse more models
         self.TOKENS = ["445f5c25521d4043ba342377deede8e7", "34f44f5b82be4f69a63d1962f3eadcf6", "d2f2dbdb7dbe4710bf75cb2a4f8db948", "1e96343599c34cba8bf72a06d0609c1d", "ab8152088a214b14a7009cc647c562de", 
                        "74bb2ed762684ad29ad691d616a4d0e8", "bfe2b124c6a1430c99fe2b87cde5b55d", "9211e965134a4bd786b35db2cf576f5e", "c0b8bc69938a48028ae47742fdad4b2b", "792350cdc7814e76882f27d02061b9e9",
                        "5d23d13ec9c545c4b065bb8ad2966523", "76a3f9d50bf241479466240f5a9be957", "9eefa83fa461425b931d9baedc5398db", "c3436e858349499a87e27f574f633cf1", "68b3e30df1714a2d85e819c8d232ac16",
@@ -18,16 +21,19 @@ class DownloadModel:
         self.token = self.TOKENS[0]
 
 
+    # Reading token from a file
     def retrieve_token(self, token_path):
         f = open(token_path, "r")
         return f.read()
     
 
+    # Downloading a model from sketchfab
     def download(self, model_uid):    
 
         zip_extract_path = self.zip_extract_path
         zip_save_path = self.zip_save_path
 
+        # Cleaning up
         try:
             shutil.rmtree(zip_extract_path)
             os.remove(zip_save_path)
@@ -36,13 +42,15 @@ class DownloadModel:
 
         zip_save_path = self.zip_save_path
 
-        # Place access token from sketchfab here
         ACCESS_TOKEN = self.token
         UID = model_uid
 
+        # Sending a request to download certain model
         response = requests.get(f'https://api.sketchfab.com/v3/models/{UID}/download', headers={'authorization': f'Token {ACCESS_TOKEN}'})
 
         download_url = ""
+
+        # If all is good-to-go, then 
         if response.status_code == 200:
             download_info = response.json()
             download_url = download_info['gltf']['url']
@@ -65,6 +73,7 @@ class DownloadModel:
             raise Exception('Error while trying to download model')
 
 
+    # Extracting downloaded gltf scene from a zip file
     def extract_from_zip(self):
         zip_extract_path = self.zip_extract_path
         zip_save_path = self.zip_save_path

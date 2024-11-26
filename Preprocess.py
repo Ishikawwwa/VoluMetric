@@ -17,8 +17,10 @@ class Preprocess:
         center = (bounding_box[0] + bounding_box[1]) / 2.0
         scene.apply_translation(-center)
 
+        # Determine the bounding sphere parameters to place the camera correctly
         bounding_sphere_radius = np.linalg.norm(bounding_box[1] - bounding_box[0]) / 2.0
 
+        # Setting up the renderer scene
         render_scene = pyrender.Scene()
         model_nodes = []
         for name, mesh in scene.geometry.items():
@@ -33,6 +35,7 @@ class Preprocess:
         camera_distance = bounding_sphere_radius / np.sin(yfov / 2) * 1.5  # Slightly further back
         camera = pyrender.PerspectiveCamera(yfov=yfov)
 
+        # All the camera positions
         camera_pose = np.array([
             [1.0, 0.0, 0.0, 0.0],  # Camera is looking at the center
             [0.0, 1.0, 0.0, 0.0],
@@ -49,6 +52,7 @@ class Preprocess:
 
         renderer = pyrender.OffscreenRenderer(viewport_width=800, viewport_height=600)
 
+        # Rotating and rendering
         frame_index = image_cnt 
         for plane in rotation_planes:
             for angle in angles:

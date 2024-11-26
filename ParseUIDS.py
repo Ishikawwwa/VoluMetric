@@ -37,14 +37,13 @@ class ParseUIDS:
                 print(f'Error fetching models: {response.status_code}')
                 break
 
-            # Respect API rate limits
-            #time.sleep(5)  # Adjust the sleep time based on API rate limits
+            # So the API is not banning us too often
+            #time.sleep(5)
 
         return uids
 
     def parse(self, MAX_FILE_SIZE_MB):
 
-        # Replace 'YOUR_API_TOKEN' with your actual Sketchfab API token
         f = open("TOKEN.txt", 'r')
         API_TOKEN = f.read()
         HEADERS = {
@@ -55,14 +54,14 @@ class ParseUIDS:
 
         # Define the parameters for the request
         params = {
-            'downloadable': 'true',  # Filter to only include downloadable models
-            'license': 'CC0,CC-BY,CC-BY-SA',  # Filter to include only free models (with permissive licenses)
-            'sort_by': '-likeCount',  # Optional: Sort by most liked models
+            'downloadable': 'true',  # Filter to only include downloadables
+            'license': 'CC0,CC-BY,CC-BY-SA',  # Filter to include only free models
+            'sort_by': '-likeCount',  # Sort by most liked models
             'type': 'models',
             'q': ''
         }
 
-        # Fetch the UIDs based on the modified parameters
+        # Fetch the UIDs
         uids = self.fetch_uids(BASE_URL, HEADERS, params, MAX_FILE_SIZE_MB)
 
         f = open(self.uid_path, 'w')

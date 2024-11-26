@@ -10,6 +10,7 @@ class PrepareData:
     def __init__(self, uids_path):
         self.uids = self.parse_uids(uids_path)
 
+    # Function to retrieve models -> generate embeddings and upload them to the databases
     def prepare(self, image_folder_path, view_num):
         download_model = DownloadModel("model.zip", "extracted/", "TOKEN.txt")
         preprocess = Preprocess()

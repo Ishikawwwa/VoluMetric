@@ -16,12 +16,12 @@ class ImageToEmbed:
         self.model = ViTModel.from_pretrained("google/vit-base-patch16-224").eval().to(self.device)
 
     def _set_seed(self, seed):
-        """Set seeds for reproducibility."""
         torch.manual_seed(seed)
         np.random.seed(seed)
         if torch.cuda.is_available():
             torch.cuda.manual_seed_all(seed)
 
+    # Using last hidden state mean value to get the correct embedding, since pooling layer is not initialized by default and could lead to different results.
     def convert(self, image_path):
         image = Image.open(image_path).convert("RGB")
         inputs = self.processor(images=image, return_tensors="pt").to(self.device)

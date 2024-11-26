@@ -1,10 +1,13 @@
 from backgroundremover.bg import remove
 from PIL import Image
 
+
+# Class used for silhouette experiments to prepare the use input image to be converted into embeddings
 class PrepareImage:
     def __init__(self):
         pass
     
+    # Removing background
     def remove_bg(self, src_img_path, out_img_path):
         model_choices = ["u2net", "u2net_human_seg", "u2netp"]
         f = open(src_img_path, "rb")
@@ -21,6 +24,7 @@ class PrepareImage:
         f.close()
 
 
+    # Making the main object black
     def black_out(self, src_img_path, out_img_path):
         im = Image.open(src_img_path)
         alpha = im.getchannel('A')
@@ -30,6 +34,7 @@ class PrepareImage:
         res.putalpha(alphaThresh)
         res.save(out_img_path)
 
+    # Adding a white background instead of transparent thing
     def add_white_background(self, src_img_path, out_img_path):
         im = Image.open(src_img_path)
 
